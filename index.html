@@ -3,93 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franklin's Project</title>
+    <title>Franklin Test Project</title>
     <style>
-        body { margin: 0; padding: 0; background: #000; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
+        body { margin: 0; padding: 0; background: #000; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
+        .phone { width: 350px; height: 700px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; background-size: cover; border: 10px solid #222; border-radius: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .status-bar { padding: 15px 25px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
+        #clock { font-size: 65px; font-weight: 300; text-align: center; margin-top: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .wallpaper-text { position: absolute; width: 100%; top: 38%; text-align: center; font-size: 22px; font-weight: bold; color: rgba(255, 255, 255, 0.9); text-shadow: 2px 2px 8px #000; }
         
-        /* Ibinalik natin sa saktong sukat ng phone frame */
-        .phone { 
-            width: 350px; 
-            height: 700px; 
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; 
-            background-size: cover; 
-            border: 10px solid #222; 
-            border-radius: 40px; 
-            position: relative; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.8); 
-        }
+        /* App Grid */
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px; position: absolute; bottom: 40px; width: 310px; }
+        .app { text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .icon { width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .app-label { font-size: 10px; font-weight: 600; text-align: center; }
 
-        /* Heto yung pinapalagay mo sa wallpaper */
-        .wallpaper-text {
-            position: absolute;
-            width: 100%;
-            top: 40%;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 2px 2px 10px rgba(0,0,0,1);
-            letter-spacing: 2px;
-        }
-
-        .status-bar { padding: 15px 20px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
-        .clock-section { text-align: center; margin-top: 30px; position: relative; z-index: 2; }
-        #clock { font-size: 60px; font-weight: 300; margin: 0; }
-        
-        .app-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 20px; 
-            padding: 20px; 
-            position: absolute;
-            bottom: 50px;
-            width: 310px;
-        }
-        .app { text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center; }
-        .icon { width: 60px; height: 60px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 30px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .app-label { font-size: 11px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        /* Tax App Screen */
+        #tax-app { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; border-radius: 30px; color: #1c1e21; z-index: 100; padding: 20px; box-sizing: border-box; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #1a73e8; }
+        .input-group { margin-bottom: 15px; }
+        label { font-size: 12px; font-weight: bold; color: #555; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 20px; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .total-row { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; font-weight: bold; font-size: 18px; color: #2ecc71; }
+        .close-btn { background: #eee; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="phone">
-        <div class="status-bar">
-            <span id="stat-time">--:--</span>
-            <span>📶 🔋 100%</span>
-        </div>
-
-        <div class="clock-section">
-            <h1 id="clock">--:--</h1>
-            <p style="margin-top:-10px;">Wednesday, May 6</p>
-        </div>
-
-        <div class="wallpaper-text">
-            FRANKLIN<br>TEST PROJECT
-        </div>
+        <div class="status-bar"><span id="stat-time">--:--</span><span>📶 🔋 100%</span></div>
+        <h1 id="clock">--:--</h1>
+        <div class="wallpaper-text">FRANKLIN<br>TEST PROJECT</div>
 
         <div class="app-grid">
             <a href="https://franklinnesperos.github.io/DTR/" class="app">
-                <div class="icon" style="background: linear-gradient(135deg, #2196F3, #00BCD4);">📝</div>
-                <span class="app-label">DTR</span>
+                <div class="icon" style="background: #2196F3;">📝</div><span class="app-label">DTR</span>
             </a>
-            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);">📷</div><span class="app-label">Photos</span></div>
-            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #FF9800, #F44336);">🚚</div><span class="app-label">RC Truck</span></div>
-            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #9C27B0, #E91E63);">⚙️</div><span class="app-label">Settings</span></div>
+            <div class="app" onclick="openTaxApp()">
+                <div class="icon" style="background: #2ecc71;">💰</div><span class="app-label">TAX COMP</span>
+            </div>
+            <div class="app"><div class="icon" style="background: #4CAF50;">📷</div><span class="app-label">Photos</span></div>
+            <div class="app"><div class="icon" style="background: #9C27B0;">⚙️</div><span class="app-label">Settings</span></div>
+        </div>
+
+        <div id="tax-app">
+            <div class="header">
+                <h2>NZ Tax Calc</h2>
+                <button class="close-btn" onclick="closeTaxApp()">Back</button>
+            </div>
+            
+            <div class="input-group">
+                <label>FORTNIGHTLY HOURS</label>
+                <input type="number" id="hrs" placeholder="Enter total hours" oninput="doMath()">
+            </div>
+            <div class="input-group">
+                <label>HOURLY RATE ($)</label>
+                <input type="number" id="rate" placeholder="Enter rate" oninput="doMath()">
+            </div>
+
+            <div class="result-card">
+                <div class="res-row"><span>Gross Income:</span> <b id="out-gross">$0.00</b></div>
+                <div class="res-row" style="color: #e74c3c;"><span>PAYE Tax:</span> <b id="out-tax">-$0.00</b></div>
+                <div class="res-row" style="color: #e74c3c;"><span>ACC Levy (1.60%):</span> <b id="out-acc">-$0.00</b></div>
+                <div class="total-row"><span>NET PAY:</span> <span id="out-net">$0.00</span></div>
+            </div>
+            <p style="font-size: 10px; color: #888; margin-top: 15px; text-align: center;">Based on NZ Standard Tax Brackets 2026</p>
         </div>
     </div>
 
     <script>
         function updateTime() {
             const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12;
-            const timeStr = hours + ":" + (minutes < 10 ? '0' + minutes : minutes);
+            let h = now.getHours(), m = now.getMinutes();
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            let timeStr = h + ":" + (m < 10 ? '0' + m : m);
             document.getElementById('clock').innerText = timeStr;
             document.getElementById('stat-time').innerText = timeStr + " " + ampm;
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateTime, 1000); updateTime();
+
+        function openTaxApp() { document.getElementById('tax-app').style.display = 'block'; }
+        function closeTaxApp() { document.getElementById('tax-app').style.display = 'none'; }
+
+        function doMath() {
+            let hours = document.getElementById('hrs').value || 0;
+            let rate = document.getElementById('rate').value || 0;
+            let gross = hours * rate;
+
+            // NZ PAYE Fortnightly Approximation Logic
+            let annual = gross * 26;
+            let tax = 0;
+            if (annual <= 15600) tax = annual * 0.105;
+            else if (annual <= 53500) tax = (15600 * 0.105) + ((annual - 15600) * 0.175);
+            else if (annual <= 78100) tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((annual - 53500) * 0.30);
+            else tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((78100 - 53500) * 0.30) + ((annual - 78100) * 0.33);
+
+            let fortnightlyTax = tax / 26;
+            let acc = gross * 0.0160; // Standard ACC Levy
+            let net = gross - fortnightlyTax - acc;
+
+            document.getElementById('out-gross').innerText = '$' + gross.toFixed(2);
+            document.getElementById('out-tax').innerText = '-$' + fortnightlyTax.toFixed(2);
+            document.getElementById('out-acc').innerText = '-$' + acc.toFixed(2);
+            document.getElementById('out-net').innerText = '$' + net.toFixed(2);
+        }
     </script>
 </body>
 </html>
