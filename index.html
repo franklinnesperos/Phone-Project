@@ -5,28 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franklin Test Project</title>
     <style>
-        body { margin: 0; padding: 0; background: #000; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
-        .phone { width: 350px; height: 700px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; background-size: cover; border: 10px solid #222; border-radius: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .status-bar { padding: 15px 25px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
-        #clock { font-size: 65px; font-weight: 300; text-align: center; margin-top: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        body { margin: 0; padding: 0; background: #000; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
+        .phone { width: 350px; height: 700px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; background-size: cover; border: 10px solid #222; border-radius: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .status-bar { padding: 15px 25px; display: flex; justify-content: space-between; font-size: 12px; }
+        #clock { font-size: 65px; font-weight: 300; text-align: center; margin-top: 20px; }
         .wallpaper-text { position: absolute; width: 100%; top: 38%; text-align: center; font-size: 22px; font-weight: bold; color: rgba(255, 255, 255, 0.9); text-shadow: 2px 2px 8px #000; }
         
-        /* App Grid */
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px; position: absolute; bottom: 40px; width: 310px; }
         .app { text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .icon { width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-        .app-label { font-size: 10px; font-weight: 600; text-align: center; }
+        .icon { width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .app-label { font-size: 10px; margin-top: 8px; font-weight: bold; }
 
-        /* Tax App Screen */
-        #tax-app { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; border-radius: 30px; color: #1c1e21; z-index: 100; padding: 20px; box-sizing: border-box; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #1a73e8; }
-        .input-group { margin-bottom: 15px; }
-        label { font-size: 12px; font-weight: bold; color: #555; }
-        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
-        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 20px; }
-        .res-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        .total-row { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; font-weight: bold; font-size: 18px; color: #2ecc71; }
-        .close-btn { background: #eee; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        /* Fullscreen Tax App */
+        #tax-app { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f1f3f6; border-radius: 30px; color: #333; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .input-group { margin-bottom: 10px; }
+        label { font-size: 11px; font-weight: bold; color: #555; }
+        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        
+        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-top: 15px; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+        .total-row { border-top: 2px solid #eee; margin-top: 8px; padding-top: 8px; font-weight: bold; font-size: 18px; color: #2ecc71; }
+        
+        .leave-card { background: #e8f4fd; padding: 12px; border-radius: 12px; margin-top: 15px; border-left: 5px solid #2196F3; }
+        .leave-title { font-size: 12px; font-weight: bold; color: #2196F3; margin-bottom: 5px; }
+        .back-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -47,19 +50,10 @@
         </div>
 
         <div id="tax-app">
-            <div class="header">
-                <h2>NZ Tax Calc</h2>
-                <button class="close-btn" onclick="closeTaxApp()">Back</button>
-            </div>
+            <div class="header"><h3>NZ Tax & Leave</h3><button class="back-btn" onclick="closeTaxApp()">Close</button></div>
             
-            <div class="input-group">
-                <label>FORTNIGHTLY HOURS</label>
-                <input type="number" id="hrs" placeholder="Enter total hours" oninput="doMath()">
-            </div>
-            <div class="input-group">
-                <label>HOURLY RATE ($)</label>
-                <input type="number" id="rate" placeholder="Enter rate" oninput="doMath()">
-            </div>
+            <div class="input-group"><label>TOTAL HOURS (FORTNIGHT)</label><input type="number" id="hrs" value="97" oninput="doMath()"></div>
+            <div class="input-group"><label>HOURLY RATE ($)</label><input type="number" id="rate" value="29.66" oninput="doMath()"></div>
 
             <div class="result-card">
                 <div class="res-row"><span>Gross Income:</span> <b id="out-gross">$0.00</b></div>
@@ -67,7 +61,13 @@
                 <div class="res-row" style="color: #e74c3c;"><span>ACC Levy (1.60%):</span> <b id="out-acc">-$0.00</b></div>
                 <div class="total-row"><span>NET PAY:</span> <span id="out-net">$0.00</span></div>
             </div>
-            <p style="font-size: 10px; color: #888; margin-top: 15px; text-align: center;">Based on NZ Standard Tax Brackets 2026</p>
+
+            <div class="leave-card">
+                <div class="leave-title">ANNUAL LEAVE ACCRUAL (8%)</div>
+                <div class="res-row"><span>Earned Hours:</span> <b id="out-leave-hrs">0.00 hrs</b></div>
+                <div class="res-row"><span>Earned Value:</span> <b id="out-leave-val">$0.00</b></div>
+            </div>
+            <p style="font-size: 10px; color: #888; text-align: center; margin-top: 10px;">Calculated based on NZ Holidays Act</p>
         </div>
     </div>
 
@@ -75,23 +75,22 @@
         function updateTime() {
             const now = new Date();
             let h = now.getHours(), m = now.getMinutes();
-            let ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12 || 12;
+            let ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
             let timeStr = h + ":" + (m < 10 ? '0' + m : m);
             document.getElementById('clock').innerText = timeStr;
             document.getElementById('stat-time').innerText = timeStr + " " + ampm;
         }
         setInterval(updateTime, 1000); updateTime();
 
-        function openTaxApp() { document.getElementById('tax-app').style.display = 'block'; }
+        function openTaxApp() { document.getElementById('tax-app').style.display = 'block'; doMath(); }
         function closeTaxApp() { document.getElementById('tax-app').style.display = 'none'; }
 
         function doMath() {
-            let hours = document.getElementById('hrs').value || 0;
-            let rate = document.getElementById('rate').value || 0;
-            let gross = hours * rate;
-
-            // NZ PAYE Fortnightly Approximation Logic
+            let h = parseFloat(document.getElementById('hrs').value) || 0;
+            let r = parseFloat(document.getElementById('rate').value) || 0;
+            let gross = h * r;
+            
+            // PAYE Brackets
             let annual = gross * 26;
             let tax = 0;
             if (annual <= 15600) tax = annual * 0.105;
@@ -99,14 +98,21 @@
             else if (annual <= 78100) tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((annual - 53500) * 0.30);
             else tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((78100 - 53500) * 0.30) + ((annual - 78100) * 0.33);
 
-            let fortnightlyTax = tax / 26;
-            let acc = gross * 0.0160; // Standard ACC Levy
-            let net = gross - fortnightlyTax - acc;
+            let paye = tax / 26;
+            let acc = gross * 0.0160;
+            let net = gross - paye - acc;
+
+            // Annual Leave Calculation (8%)
+            let leaveHrs = h * 0.08;
+            let leaveVal = gross * 0.08;
 
             document.getElementById('out-gross').innerText = '$' + gross.toFixed(2);
-            document.getElementById('out-tax').innerText = '-$' + fortnightlyTax.toFixed(2);
+            document.getElementById('out-tax').innerText = '-$' + paye.toFixed(2);
             document.getElementById('out-acc').innerText = '-$' + acc.toFixed(2);
             document.getElementById('out-net').innerText = '$' + net.toFixed(2);
+            
+            document.getElementById('out-leave-hrs').innerText = leaveHrs.toFixed(2) + ' hrs';
+            document.getElementById('out-leave-val').innerText = '$' + leaveVal.toFixed(2);
         }
     </script>
 </body>
