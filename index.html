@@ -16,20 +16,17 @@
         .icon { width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
         .app-label { font-size: 10px; margin-top: 8px; font-weight: bold; }
 
-        /* Fullscreen Tax App */
-        #tax-app { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f1f3f6; border-radius: 30px; color: #333; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-        .input-group { margin-bottom: 10px; }
-        label { font-size: 11px; font-weight: bold; color: #555; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        #tax-app { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f4f6f9; border-radius: 30px; color: #333; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
+        label { font-size: 11px; font-weight: bold; color: #666; }
+        input { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
         
-        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-top: 15px; }
+        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; }
         .res-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
         .total-row { border-top: 2px solid #eee; margin-top: 8px; padding-top: 8px; font-weight: bold; font-size: 18px; color: #2ecc71; }
         
-        .leave-card { background: #e8f4fd; padding: 12px; border-radius: 12px; margin-top: 15px; border-left: 5px solid #2196F3; }
-        .leave-title { font-size: 12px; font-weight: bold; color: #2196F3; margin-bottom: 5px; }
-        .back-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; }
+        .info-card { background: #e8f4fd; padding: 10px; border-radius: 10px; margin-top: 10px; font-size: 11px; border-left: 4px solid #2196F3; }
+        .back-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -50,24 +47,23 @@
         </div>
 
         <div id="tax-app">
-            <div class="header"><h3>NZ Tax & Leave</h3><button class="back-btn" onclick="closeTaxApp()">Close</button></div>
+            <div class="header"><h3>NZ Tax & Leave</h3><button class="back-btn" onclick="closeTaxApp()">Back</button></div>
             
-            <div class="input-group"><label>TOTAL HOURS (FORTNIGHT)</label><input type="number" id="hrs" value="97" oninput="doMath()"></div>
-            <div class="input-group"><label>HOURLY RATE ($)</label><input type="number" id="rate" value="29.66" oninput="doMath()"></div>
+            <label>TOTAL HOURS (FORTNIGHT)</label><input type="number" id="hrs" value="97" oninput="doMath()">
+            <label>HOURLY RATE ($)</label><input type="number" id="rate" value="29.66" oninput="doMath()">
 
             <div class="result-card">
                 <div class="res-row"><span>Gross Income:</span> <b id="out-gross">$0.00</b></div>
-                <div class="res-row" style="color: #e74c3c;"><span>PAYE Tax:</span> <b id="out-tax">-$0.00</b></div>
+                <div class="res-row" style="color: #e74c3c;"><span>PAYE (Standard):</span> <b id="out-tax-std">-$0.00</b></div>
+                <div class="res-row" style="color: #27ae60;"><span>IETC Credit:</span> <b id="out-ietc">+$0.00</b></div>
                 <div class="res-row" style="color: #e74c3c;"><span>ACC Levy (1.60%):</span> <b id="out-acc">-$0.00</b></div>
                 <div class="total-row"><span>NET PAY:</span> <span id="out-net">$0.00</span></div>
             </div>
 
-            <div class="leave-card">
-                <div class="leave-title">ANNUAL LEAVE ACCRUAL (8%)</div>
-                <div class="res-row"><span>Earned Hours:</span> <b id="out-leave-hrs">0.00 hrs</b></div>
-                <div class="res-row"><span>Earned Value:</span> <b id="out-leave-val">$0.00</b></div>
+            <div class="info-card">
+                <b>ANNUAL LEAVE (8% Accrual)</b><br>
+                Hours: <span id="out-leave-hrs">0.00</span> hrs | Value: <span id="out-leave-val">$0.00</span>
             </div>
-            <p style="font-size: 10px; color: #888; text-align: center; margin-top: 10px;">Calculated based on NZ Holidays Act</p>
         </div>
     </div>
 
@@ -89,30 +85,37 @@
             let h = parseFloat(document.getElementById('hrs').value) || 0;
             let r = parseFloat(document.getElementById('rate').value) || 0;
             let gross = h * r;
-            
-            // PAYE Brackets
             let annual = gross * 26;
+
+            // 1. Standard PAYE
             let tax = 0;
             if (annual <= 15600) tax = annual * 0.105;
             else if (annual <= 53500) tax = (15600 * 0.105) + ((annual - 15600) * 0.175);
             else if (annual <= 78100) tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((annual - 53500) * 0.30);
             else tax = (15600 * 0.105) + ((53500 - 15600) * 0.175) + ((78100 - 53500) * 0.30) + ((annual - 78100) * 0.33);
 
-            let paye = tax / 26;
-            let acc = gross * 0.0160;
-            let net = gross - paye - acc;
+            // 2. IETC Calculation Logic
+            let ietcAnnual = 0;
+            if (annual > 24000 && annual <= 48000) {
+                ietcAnnual = 520; // Full credit ($10/week)
+            } else if (annual > 48000 && annual < 70000) {
+                ietcAnnual = 520 - ((annual - 48000) * 0.13); // Phase out
+                if (ietcAnnual < 0) ietcAnnual = 0;
+            }
 
-            // Annual Leave Calculation (8%)
-            let leaveHrs = h * 0.08;
-            let leaveVal = gross * 0.08;
+            let payeFortnightly = tax / 26;
+            let ietcFortnightly = ietcAnnual / 26;
+            let acc = gross * 0.0160;
+            let net = gross - (payeFortnightly - ietcFortnightly) - acc;
 
             document.getElementById('out-gross').innerText = '$' + gross.toFixed(2);
-            document.getElementById('out-tax').innerText = '-$' + paye.toFixed(2);
+            document.getElementById('out-tax-std').innerText = '-$' + payeFortnightly.toFixed(2);
+            document.getElementById('out-ietc').innerText = '+$' + ietcFortnightly.toFixed(2);
             document.getElementById('out-acc').innerText = '-$' + acc.toFixed(2);
             document.getElementById('out-net').innerText = '$' + net.toFixed(2);
             
-            document.getElementById('out-leave-hrs').innerText = leaveHrs.toFixed(2) + ' hrs';
-            document.getElementById('out-leave-val').innerText = '$' + leaveVal.toFixed(2);
+            document.getElementById('out-leave-hrs').innerText = (h * 0.08).toFixed(2);
+            document.getElementById('out-leave-val').innerText = '$' + (gross * 0.08).toFixed(2);
         }
     </script>
 </body>
