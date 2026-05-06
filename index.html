@@ -3,84 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frank's S25 Ultra</title>
+    <title>Franklin's Project</title>
     <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #000; 
-            font-family: sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            color: white; 
-            overflow: hidden;
-        }
-        /* Mobile View Container */
-        .phone { 
-            width: 100vw; 
-            height: 100vh; 
-            max-width: 450px; /* Para hindi sobrang lapad sa desktop */
-            background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; 
-            background-size: cover; 
-            position: relative; 
-            display: flex;
-            flex-direction: column;
-        }
-        .status-bar { 
-            padding: 15px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 14px; 
-            font-weight: bold;
-            background: rgba(0,0,0,0.1);
-        }
-        .clock-section { 
-            text-align: center; 
-            margin-top: 40px; 
-        }
-        #clock { 
-            font-size: 70px; 
-            font-weight: 300; 
-            margin: 0; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
-        .date { font-size: 18px; margin-top: -10px; opacity: 0.9; }
+        body { margin: 0; padding: 0; background: #000; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
         
-        /* Fixed Grid Layout */
+        /* Ibinalik natin sa saktong sukat ng phone frame */
+        .phone { 
+            width: 350px; 
+            height: 700px; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; 
+            background-size: cover; 
+            border: 10px solid #222; 
+            border-radius: 40px; 
+            position: relative; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); 
+        }
+
+        /* Heto yung pinapalagay mo sa wallpaper */
+        .wallpaper-text {
+            position: absolute;
+            width: 100%;
+            top: 40%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 2px 2px 10px rgba(0,0,0,1);
+            letter-spacing: 2px;
+        }
+
+        .status-bar { padding: 15px 20px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
+        .clock-section { text-align: center; margin-top: 30px; position: relative; z-index: 2; }
+        #clock { font-size: 60px; font-weight: 300; margin: 0; }
+        
         .app-grid { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
+            gap: 20px; 
             padding: 20px; 
-            margin-top: auto; /* Itutulak ang apps sa baba parang real phone */
-            margin-bottom: 40px;
+            position: absolute;
+            bottom: 50px;
+            width: 310px;
         }
-        .app { 
-            text-decoration: none; 
-            color: white; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-        .icon { 
-            width: 65px; 
-            height: 65px; 
-            border-radius: 18px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            font-size: 32px; 
-            margin-bottom: 5px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            backdrop-filter: blur(5px);
-        }
-        .app-label { 
-            font-size: 12px; 
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8); 
-            text-align: center;
-        }
+        .app { text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center; }
+        .icon { width: 60px; height: 60px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 30px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .app-label { font-size: 11px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body>
@@ -89,30 +56,27 @@
             <span id="stat-time">--:--</span>
             <span>📶 🔋 100%</span>
         </div>
+
         <div class="clock-section">
             <h1 id="clock">--:--</h1>
-            <p class="date">Wednesday, May 6</p>
+            <p style="margin-top:-10px;">Wednesday, May 6</p>
         </div>
-        
+
+        <div class="wallpaper-text">
+            FRANKLIN<br>TEST PROJECT
+        </div>
+
         <div class="app-grid">
             <a href="https://franklinnesperos.github.io/DTR/" class="app">
                 <div class="icon" style="background: linear-gradient(135deg, #2196F3, #00BCD4);">📝</div>
                 <span class="app-label">DTR</span>
             </a>
-            <div class="app">
-                <div class="icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);">📷</div>
-                <span class="app-label">Photos</span>
-            </div>
-            <div class="app">
-                <div class="icon" style="background: linear-gradient(135deg, #FF9800, #F44336);">🚚</div>
-                <span class="app-label">RC Truck</span>
-            </div>
-            <div class="app">
-                <div class="icon" style="background: linear-gradient(135deg, #9C27B0, #E91E63);">⚙️</div>
-                <span class="app-label">Settings</span>
-            </div>
+            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);">📷</div><span class="app-label">Photos</span></div>
+            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #FF9800, #F44336);">🚚</div><span class="app-label">RC Truck</span></div>
+            <div class="app"><div class="icon" style="background: linear-gradient(135deg, #9C27B0, #E91E63);">⚙️</div><span class="app-label">Settings</span></div>
         </div>
     </div>
+
     <script>
         function updateTime() {
             const now = new Date();
