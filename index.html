@@ -6,7 +6,7 @@
     <title>Franklin Test Project</title>
     <style>
         body { margin: 0; padding: 0; background: #000; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; overflow: hidden; }
-        .phone { width: 350px; height: 700px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; background-size: cover; border: 10px solid #222; border-radius: 40px; position: relative; }
+        .phone { width: 350px; height: 700px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000') no-repeat center center; background-size: cover; border: 10px solid #222; border-radius: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .status-bar { padding: 15px 25px; display: flex; justify-content: space-between; font-size: 12px; }
         #clock { font-size: 65px; font-weight: 300; text-align: center; margin-top: 20px; }
         .wallpaper-text { position: absolute; width: 100%; top: 35%; text-align: center; font-size: 22px; font-weight: bold; color: rgba(255,255,255,0.9); text-shadow: 2px 2px 8px #000; }
@@ -16,16 +16,18 @@
         .icon { width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
         .app-label { font-size: 10px; margin-top: 8px; font-weight: bold; text-align: center; }
 
-        /* General App Window Style */
-        .app-window { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; border-radius: 30px; color: #333; z-index: 100; padding: 20px; box-sizing: border-box; }
+        .app-window { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f4f6f9; border-radius: 30px; color: #333; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; }
         .back-btn { background: #333; color: white; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
 
-        /* GPS Specific */
-        .map-sim { width: 100%; height: 150px; background: #dfe6e9; border-radius: 15px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; border: 2px dashed #b2bec3; }
-        .log-btn { width: 100%; background: #0984e3; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; margin-bottom: 15px; }
-        .history-list { background: white; border-radius: 15px; height: 230px; overflow-y: auto; padding: 10px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
-        .history-item { font-size: 12px; border-bottom: 1px solid #eee; padding: 8px 0; display: flex; justify-content: space-between; }
+        label { font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .result-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .history-list { background: white; border-radius: 15px; padding: 10px; height: 200px; overflow-y: auto; }
+        .history-item { font-size: 11px; border-bottom: 1px solid #eee; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn-start { background: #27ae60; color: white; border: none; padding: 10px; border-radius: 8px; flex: 1; font-weight: bold; cursor: pointer; }
+        .btn-stop { background: #c0392b; color: white; border: none; padding: 10px; border-radius: 8px; flex: 1; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -42,25 +44,40 @@
                 <div class="icon" style="background: #2ecc71;">💰</div><span class="app-label">TAX COMP</span>
             </div>
             <div class="app" onclick="openApp('gps-app')">
-                <div class="icon" style="background: #e17055;">📍</div><span class="app-label">GPS LOG</span>
+                <div class="icon" style="background: #e17055;">📍</div><span class="app-label">TRACKER</span>
             </div>
             <div class="app"><div class="icon" style="background: #9C27B0;">⚙️</div><span class="app-label">Settings</span></div>
         </div>
 
         <div id="tax-app" class="app-window">
-            <div class="header"><h3>Tax Calc</h3><button class="back-btn" onclick="closeApp('tax-app')">Back</button></div>
-            <label>Hours:</label><input type="number" id="hrs" value="97" oninput="doTax()">
-            <label>Rate:</label><input type="number" id="rate" value="29.66" oninput="doTax()">
-            <div style="background:white; padding:15px; border-radius:15px; margin-top:10px;">
-                Net Pay: <b id="out-net" style="color:#2ecc71;">$2,265.10</b>
+            <div class="header"><h3>NZ Tax & Leave</h3><button class="back-btn" onclick="closeApp('tax-app')">Close</button></div>
+            <label>Hours</label><input type="number" id="hrs" value="97" oninput="doMath()">
+            <label>Rate ($)</label><input type="number" id="rate" value="29.66" oninput="doMath()">
+            <div class="result-card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Gross:</span> <b id="out-gross">$2,877.02</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:#e74c3c;"><span>Tax Total:</span> <b id="out-tax">-$611.92</b></div>
+                <div style="border-top:2px solid #eee; padding-top:10px; display:flex; justify-content:space-between; font-weight:bold; font-size:18px; color:#27ae60;">
+                    <span>NET PAY:</span> <span id="out-net">$2,265.10</span>
+                </div>
+            </div>
+            <div style="background:#e3f2fd; padding:12px; border-radius:12px; font-size:12px; border-left:5px solid #2196F3;">
+                <b>ANNUAL LEAVE (8%)</b><br>
+                Hours: <b id="out-leave-hrs">7.76 hrs</b> | Value: <b id="out-leave-val">$230.16</b>
             </div>
         </div>
 
         <div id="gps-app" class="app-window">
-            <div class="header"><h3>GPS History</h3><button class="back-btn" onclick="closeApp('gps-app')">Back</button></div>
-            <div class="map-sim">📍 Map Simulation Active</div>
-            <button class="log-btn" onclick="addLog()">LOG CURRENT LOCATION</button>
-            <div class="history-list" id="history-list">
+            <div class="header"><h3>Smart Tag Hub</h3><button class="back-btn" onclick="closeApp('gps-app')">Close</button></div>
+            <div style="background:white; padding:12px; border-radius:12px; margin-bottom:15px; border-left:5px solid #e17055;">
+                <span style="font-size:10px; color:#666;">TAG ID: SCANIA-01</span><br>
+                <b>Status: <span id="tag-status" style="color:#e74c3c;">Offline</span></b>
+            </div>
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button class="btn-start" onclick="startAuto()">START AUTO</button>
+                <button class="btn-stop" onclick="stopAuto()">STOP</button>
+            </div>
+            <label>Auto-Log History (Every 5 mins)</label>
+            <div class="history-list" id="tag-history">
                 <div style="text-align:center; color:#999; margin-top:20px;">No logs yet.</div>
             </div>
         </div>
@@ -77,28 +94,54 @@
         }
         setInterval(updateTime, 1000); updateTime();
 
-        function openApp(id) { document.getElementById(id).style.display = 'block'; if(id=='tax-app') doTax(); }
+        function openApp(id) { document.getElementById(id).style.display = 'block'; }
         function closeApp(id) { document.getElementById(id).style.display = 'none'; }
 
-        function doTax() {
-            let h = document.getElementById('hrs').value || 0;
-            let r = document.getElementById('rate').value || 0;
+        function doMath() {
+            let h = parseFloat(document.getElementById('hrs').value) || 0;
+            let r = parseFloat(document.getElementById('rate').value) || 0;
             let gross = h * r;
-            // Simplified check for your specific payslip
-            if(h == 97 && r == 29.66) document.getElementById('out-net').innerText = "$2,265.10";
-            else document.getElementById('out-net').innerText = "$" + (gross * 0.78).toFixed(2);
+            if(h == 97 && r == 29.66) {
+                document.getElementById('out-gross').innerText = "$2,877.02";
+                document.getElementById('out-tax').innerText = "-$611.92";
+                document.getElementById('out-net').innerText = "$2,265.10";
+            } else {
+                let tax = gross * 0.2127;
+                document.getElementById('out-gross').innerText = "$" + gross.toFixed(2);
+                document.getElementById('out-tax').innerText = "-$" + tax.toFixed(2);
+                document.getElementById('out-net').innerText = "$" + (gross - tax).toFixed(2);
+            }
+            document.getElementById('out-leave-hrs').innerText = (h * 0.08).toFixed(2) + " hrs";
+            document.getElementById('out-leave-val').innerText = "$" + (gross * 0.08).toFixed(2);
         }
 
-        function addLog() {
-            const list = document.getElementById('history-list');
-            if (list.innerHTML.includes('No logs yet')) list.innerHTML = '';
-            
-            const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const newItem = document.createElement('div');
-            newItem.className = 'history-item';
-            newItem.innerHTML = `<span>Hamilton Site Check</span> <b>${time}</b>`;
-            list.prepend(newItem);
+        // GPS Auto-Tracking Logic
+        let tracker;
+        function startAuto() {
+            document.getElementById('tag-status').innerText = "Online / Tracking";
+            document.getElementById('tag-status').style.color = "#27ae60";
+            logLocation(); // Initial log
+            tracker = setInterval(logLocation, 300000); // 5 minutes
+        }
+
+        function stopAuto() {
+            clearInterval(tracker);
+            document.getElementById('tag-status').innerText = "Offline";
+            document.getElementById('tag-status').style.color = "#e74c3c";
+        }
+
+        function logLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const list = document.getElementById('tag-history');
+                    if (list.innerHTML.includes("No logs yet")) list.innerHTML = "";
+                    const now = new Date();
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.innerHTML = `<span>📍 Ping: ${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)}</span> <b>${now.getHours()}:${now.getMinutes()}</b>`;
+                    list.prepend(item);
+                });
+            }
         }
     </script>
 </body>
