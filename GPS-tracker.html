@@ -1,0 +1,36 @@
+<div id="gps-app" class="app-window">
+    <div class="header">
+        <h3>Smart Tag Tracker</h3>
+        <button class="back-btn" onclick="closeApp('gps-app')">Close</button>
+    </div>
+
+    <div style="background: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #e17055;">
+        <span style="font-size: 12px; color: #666;">DEVICE NAME:</span><br>
+        <b style="font-size: 18px;">🚚 RC Truck Scania (Tag-01)</b><br>
+        <span style="font-size: 11px; color: #2ecc71;">● Connected to Google Find Hub</span>
+    </div>
+
+    <div style="width: 100%; height: 180px; background: #dfe6e9; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px;">
+        <div style="position: absolute; top: 40%; left: 50%; font-size: 24px;">📍</div>
+        <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.8); padding: 5px; border-radius: 5px; font-size: 10px; color: #333;">
+            Last Seen: Hamilton, NZ (2 mins ago)
+        </div>
+    </div>
+
+    <label style="font-size: 11px; font-weight: bold;">LOCATION HISTORY (SMART TAG)</label>
+    <div class="history-list" id="tag-history">
+        <div class="history-item">
+            <span>Hillcrest Shopping Centre</span>
+            <div style="text-align: right;"><b>11:45 AM</b><br><small style="color:#999;">May 9, 2026</small></div>
+        </div>
+        <div class="history-item">
+            <span>Liston Crescent, Hamilton</span>
+            <div style="text-align: right;"><b>09:20 AM</b><br><small style="color:#999;">May 9, 2026</small></div>
+        </div>
+        <div class="history-item">
+            <span>Rototuna Residential Site</span>
+            <div style="text-align: right;"><b>04:15 PM</b><br><small style="color:#999;">May 8, 2026</small></div>
+        </div>
+    </div>
+</div>
+
